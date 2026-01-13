@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EazyHire | Nigeria's Premium Service Marketplace | Coming Soon</title>
+    <meta name="description" content="Join EazyHire's exclusive waitlist - Nigeria's premier marketplace connecting verified service professionals with clients. Launching soon.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            /* Color System */
+            --primary: rgb(0, 146, 49);
+            --primary-light: rgb(86, 255, 114);
+            --primary-dark: rgb(2, 99, 23);
+            --secondary: #11ACA9;
+            --secondary-light: #34D399;
+            --accent: #F59E0B;
+            --accent-light: #FBBF24;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--secondary));
+            --gradient-subtle: linear-gradient(135deg, rgba(37, 235, 80, 0.1), rgba(16, 185, 129, 0.1));
+            
+            /* Neutrals */
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #EEEEEE;
+            --gray-300: #E0E0E0;
+            --gray-400: #BDBDBD;
+            --gray-500: #9E9E9E;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            
+            /* Typography */
+            --font-heading: 'Manrope', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 80px;
+            --space-5xl: 96px;
+            --space-6xl: 128px;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.1);
+            
+            /* Animations */
+            --animation-slow: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-medium: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-fast: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--white);
+            color: var(--gray-800);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--gray-200);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Bubbles Background */
+        .bubbles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary-light);
+            animation: floatUp linear infinite;
+            opacity: 0;
+            filter: blur(50px);
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) translateX(var(--x-start)) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) translateX(var(--x-end)) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Entrance Animations */
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        [data-animate].animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Scroll Animations */
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        [data-scroll].scroll-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered Animation */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .stagger-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+        
+        .section {
+            padding: var(--space-6xl) 0;
+            position: relative;
+        }
+        
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: var(--space-md) 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-100);
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header.visible {
+            transform: translateY(0);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-primary {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-sub {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+        }
+        
+        .nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            padding: var(--space-xs) 0;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-700);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding-top: 150px;
+            padding-bottom: var(--space-6xl);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: var(--space-3xl);
+            }
+        }
+        
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--gray-100);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-2xl);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .badge-text {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero-title {
+            font-size: 50px;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+            color: var(--gray-900);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 48px;
+            }
+        }
+        
+        .title-highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-subtle);
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .hero-subtitle {
+            font-size: 15px;
+            color: var(--gray-700);
+            margin-bottom: var(--space-2xl);
+            line-height: 1.6;
+        }
+        
+        /* Hero Images */
+        .hero-images {
+            position: relative;
+            height: 500px;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            height: 100%;
+        }
+        
+        .image-item {
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+        
+        .image-item.animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-item:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1;
+            transition-delay: 0.1s;
+        }
+        
+        .image-item:nth-child(2) {
+            grid-column: 2;
+            grid-row: 1;
+            transition-delay: 0.2s;
+        }
+        
+        .image-item:nth-child(3) {
+            grid-column: 1;
+            grid-row: 2;
+            transition-delay: 0.3s;
+        }
+        
+        .image-item:nth-child(4) {
+            grid-column: 2;
+            grid-row: 2;
+            transition-delay: 0.4s;
+        }
+        
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            background: var(--gray-50);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-4xl);
+        }
+        
+        .section-title {
+            font-size: 48px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-md);
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 36px;
+            }
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-2xl);
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-subtle);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: var(--space-lg);
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--gradient-primary);
+            color: var(--white);
+            transform: rotate(-5deg) scale(1.1);
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-md);
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        /* ===== CHALLENGE SECTION ===== */
+        .challenge {
+            background: var(--white);
+        }
+        
+        .challenge-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .challenge-title {
+            font-size: 40px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .challenge-description {
+            font-size: 18px;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .challenge-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-3xl);
+        }
+        
+        .challenge-point {
+            padding: var(--space-xl);
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            transition: transform 0.3s ease;
+        }
+        
+        .challenge-point:hover {
+            transform: translateY(-5px);
+        }
+        
+        .point-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-subtle);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+            margin: 0 auto var(--space-lg);
+        }
+        
+        .point-title {
+            font-size: 18px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-sm);
+        }
+        
+        /* ===== BENEFITS SECTION ===== */
+        .benefits {
+            background: var(--gray-50);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-2xl);
+        }
+        
+        .benefit-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-subtle);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+            margin: 0 auto var(--space-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover .benefit-icon {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+        
+        .benefit-title {
+            font-size: 18px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .benefit-description {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        /* ===== WAITLIST SECTION ===== */
+        .waitlist {
+            background: var(--gradient-primary);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .waitlist::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 70%;
+            height: 150%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+        
+        .waitlist-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .waitlist-title {
+            font-size: 40px;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .waitlist-subtitle {
+            font-size: 18px;
+            margin-bottom: var(--space-2xl);
+            opacity: 0.9;
+        }
+        
+        .waitlist-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-weight: 500;
+            font-size: 16px;
+            text-align: left;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .perks {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2xl);
+            margin-top: var(--space-xl);
+        }
+        
+        @media (max-width: 640px) {
+            .perks {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+        }
+        
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .perk i {
+            color: var(--accent-light);
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: var(--space-3xl) 0 var(--space-xl);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: var(--space-lg);
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+        }
+        
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 16px;
+        }
+        
+        .footer-logo-text {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+        }
+        
+        .footer-tagline {
+            color: var(--gray-400);
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .copyright {
+            color: var(--gray-500);
+            font-size: 14px;
+            margin-top: var(--space-xl);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .section {
+                padding: var(--space-4xl) 0;
+            }
+            
+            .hero {
+                padding-top: 140px;
+                padding-bottom: var(--space-4xl);
+            }
+            
+            .hero-images {
+                height: 400px;
+            }
+            
+            .container {
+                padding: 0 var(--space-lg);
+            }
+            
+            .challenge-points {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .hero-images {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Bubbles Background -->
+    <div class="bubbles-container" id="bubblesContainer"></div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo" data-animate>
+                <div class="logo-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-primary">EazyHire</span>
+                    <span class="logo-sub">Coming Soon</span>
+                </div>
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link" data-animate style="transition-delay: 0.1s">Home</a>
+                <a href="#features" class="nav-link" data-animate style="transition-delay: 0.2s">Features</a>
+                <a href="#challenge" class="nav-link" data-animate style="transition-delay: 0.3s">The Challenge</a>
+                <a href="#team" class="nav-link" data-animate style="transition-delay: 0.4s">Team</a>
+                <a href="#waitlist" class="btn btn-primary" data-animate style="transition-delay: 0.5s">
+                    <i class="fas fa-rocket"></i>
+                    <span>Join Waitlist</span>
+                </a>
+            </nav>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="section hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="coming-soon-badge" data-animate>
+                    <i class="fas fa-bolt"></i>
+                    <span class="badge-text">Launching Soon</span>
+                </div>
+                
+                <h1 class="hero-title" data-animate style="transition-delay: 0.2s">
+                    Nigeria's Premium <span class="title-highlight">Service Marketplace</span>
+                </h1>
+                
+                <p class="hero-subtitle" data-animate style="transition-delay: 0.3s">
+                    EazyHire is building Nigeria's most trusted platform connecting verified service professionals with clients. Join our exclusive waitlist to be first in line when we launch.
+                </p>
+                
+                <div class="hero-cta" data-animate style="transition-delay: 0.4s">
+                    <a href="#waitlist" class="btn btn-primary" style="padding: 16px 40px; font-size: 16px;">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Join Exclusive Waitlist</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Images Grid -->
+            <div class="hero-images">
+                <div class="image-grid">
+                    <div class="image-item" id="image1">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWxlY3RyaWNpYW58ZW58MHx8MHx8fDA%3D" alt="Home Services">
+                    </div>
+                    
+                    <div class="image-item" id="image2">
+                        <img src="https://plus.unsplash.com/premium_photo-1663047716627-e0b6c878761e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tech Services">
+                    </div>
+                    
+                    <div class="image-item" id="image3">
+                        <img src="https://images.unsplash.com/photo-1613186420419-868111e7ac07?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGJsYWNrJTIwY2hpbGQlMjBsZWFybmluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Education Services">
+                    </div>
+                    
+                    <div class="image-item" id="image4">
+                        <img src="https://images.unsplash.com/photo-1664575601786-b00156752b61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGJ1c2luZXNzfGVufDB8fDB8fHww" alt="Professional Services">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header" data-scroll>
+                <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+                <p class="section-subtitle">We've stripped away the complexity to bring you a seamless service experience.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card stagger-item" data-scroll>
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Matching</h3>
+                    <p class="feature-description">
+                        Get connected to the right service provider within seconds of your request.
+                    </p>
+                </div>
+                
+                <div class="feature-card stagger-item" data-scroll style="transition-delay: 0.1s">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="feature-title">Trusted Providers</h3>
+                    <p class="feature-description">
+                        Every provider is verified and rated by real customers like you.
+                    </p>
+                </div>
+                
+                <div class="feature-card stagger-item" data-scroll style="transition-delay: 0.2s">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">Fast Support</h3>
+                    <p class="feature-description">
+                        Our team is always available to help resolve any issues quickly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Challenge Section -->
+    <section class="section challenge" id="challenge">
+        <div class="container">
+            <div class="challenge-content" data-scroll>
+                <h2 class="section-title">Why We Built EazyHire</h2>
+                <p class="challenge-description">
+                    Finding trusted service providers in Nigeria has always been a challenge. We've all experienced the frustration asking friends, searching endlessly online, and still ending up with unreliable workers or inflated prices.
+                    <br><br>
+                    EazyHire was built to change that. We're creating a platform where you can request any service and get matched with verified, trusted providers in seconds all in one app.
+                </p>
+                
+                <div class="challenge-points">
+                    <div class="challenge-point stagger-item" data-scroll>
+                        <div class="point-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="point-title">Hard to Find</h3>
+                        <p>Spending hours searching for reliable service providers</p>
+                    </div>
+                    
+                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.1s">
+                        <div class="point-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="point-title">Trust Issues</h3>
+                        <p>No way to verify if providers are legitimate or skilled</p>
+                    </div>
+                    
+                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.2s">
+                        <div class="point-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3 class="point-title">Overpricing</h3>
+                        <p>Getting quoted different prices for the same service</p>
+                    </div>
+                    
+                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.3s">
+                        <div class="point-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="point-title">Delays</h3>
+                        <p>Waiting days for a provider who may never show up</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section benefits" id="benefits">
+        <div class="container">
+            <div class="section-header" data-scroll>
+                <h2 class="section-title">Why Choose EazyHire?</h2>
+                <p class="section-subtitle">Experience the difference with our customer-first approach</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card stagger-item" data-scroll>
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="benefit-title">Save Time</h3>
+                    <p class="benefit-description">
+                        No more endless searching. Get matched in seconds.
+                    </p>
+                </div>
+                
+                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.1s">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Avoid Unreliable Providers</h3>
+                    <p class="benefit-description">
+                        Every provider is verified and rated by real customers.
+                    </p>
+                </div>
+                
+                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.2s">
+                    <div class="benefit-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="benefit-title">Transparent Service Access</h3>
+                    <p class="benefit-description">
+                        See ratings, reviews, and pricing before you commit.
+                    </p>
+                </div>
+                
+                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.3s">
+                    <div class="benefit-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="benefit-title">Get Exactly What You Need</h3>
+                    <p class="benefit-description">
+                        One request. One match. Perfect service every time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist Section -->
+    <section class="section waitlist" id="waitlist">
+        <div class="container">
+            <div class="waitlist-container" data-scroll>
+                <h2 class="waitlist-title">Be Among the First to Experience EazyHire</h2>
+                <p class="waitlist-subtitle">
+                    Join our waitlist and get exclusive early access when we launch. Plus, early members get special perks!
+                </p>
+                
+                <form class="waitlist-form" id="waitlistForm">
+                    <div class="form-group" data-scroll style="transition-delay: 0.1s">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group" data-scroll style="transition-delay: 0.2s">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="form-group" data-scroll style="transition-delay: 0.3s">
+                        <label class="form-label">Location in Nigeria</label>
+                        <select class="form-input" required>
+                            <option value="" disabled selected>Select your city</option>
+                            <option value="lagos">Lagos</option>
+                            <option value="abuja">Abuja</option>
+                            <option value="port-harcourt">Port Harcourt</option>
+                            <option value="ibadan">Ibadan</option>
+                            <option value="others">Other Cities</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="form-submit" data-scroll style="transition-delay: 0.4s">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Join Waitlist</span>
+                    </button>
+                </form>
+                
+                <p style="margin-bottom: var(--space-lg); font-size: 14px; opacity: 0.8;">
+                    No spam, ever. We'll only email you about the launch.
+                </p>
+                
+                <div class="perks">
+                    <div class="perk" data-scroll style="transition-delay: 0.5s">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Free to join</span>
+                    </div>
+                    
+                    <div class="perk" data-scroll style="transition-delay: 0.6s">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No credit card required</span>
+                    </div>
+                    
+                    <div class="perk" data-scroll style="transition-delay: 0.7s">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Early bird perks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+<section class="section team" id="team">
+    <div class="container">
+        <div class="section-header" data-scroll>
+            <h2 class="section-title">Meet <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">The Team</span></h2>
+            <p class="section-subtitle">The passionate minds building Nigeria's trusted service marketplace</p>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-member stagger-item" data-scroll>
+                <div class="member-avatar">
+                    <div class="avatar-inner">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nwokafor Neto">
+                    </div>
+                    <div class="avatar-glow"></div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Nwokafor Netochukwu</h3>
+                    <p class="member-role">Founder & CEO</p>
+                    <p class="member-bio">Determined leader with a creative vision.</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member stagger-item" data-scroll style="transition-delay: 0.1s">
+                <div class="member-avatar">
+                    <div class="avatar-inner">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chijioke Victor">
+                    </div>
+                    <div class="avatar-glow"></div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Chijioke Victor</h3>
+                    <p class="member-role">Head of Operations</p>
+                    <p class="member-bio">Expert in scaling service businesses across Nigeria.</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member stagger-item" data-scroll style="transition-delay: 0.2s">
+                <div class="member-avatar">
+                    <div class="avatar-inner">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Boggie Man">
+                    </div>
+                    <div class="avatar-glow"></div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Boggie man</h3>
+                    <p class="member-role">Lead Developer</p>
+                    <p class="member-bio">Built scalable platforms for millions of users worldwide.</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-member stagger-item" data-scroll style="transition-delay: 0.3s">
+                <div class="member-avatar">
+                    <div class="avatar-inner">
+                        <img src="https://images.unsplash.com/photo-1718209881007-c0ecdfc00f9d?w=300&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIyfHx8ZW58MHx8fHx8" alt="Godsfavour">
+                    </div>
+                    <div class="avatar-glow"></div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Godsfavour</h3>
+                    <p class="member-role">Creative Director</p>
+                    <p class="member-bio">Head Designer in charge of the company's brand.</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Team Section Styles */
+    .team {
+        background: var(--white);
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-2xl);
+        margin-top: var(--space-3xl);
+    }
+    
+    .team-member {
+        text-align: center;
+        padding: var(--space-xl);
+        border-radius: var(--radius-xl);
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--gray-100);
+    }
+    
+    .team-member:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-light);
+    }
+    
+    .team-member::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient-primary);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+    
+    .team-member:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .member-avatar {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto var(--space-lg);
+        position: relative;
+    }
+    
+    .avatar-inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid var(--white);
+        box-shadow: var(--shadow-md);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .avatar-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    
+    .team-member:hover .avatar-inner img {
+        transform: scale(1.1);
+    }
+    
+    .avatar-glow {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        opacity: 0;
+        filter: blur(20px);
+        transition: opacity 0.4s ease;
+        z-index: 1;
+    }
+    
+    .team-member:hover .avatar-glow {
+        opacity: 0.3;
+    }
+    
+    .member-info {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .member-name {
+        font-size: 20px;
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+        font-weight: 700;
+    }
+    
+    .member-role {
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: var(--space-md);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .member-bio {
+        color: var(--gray-600);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: var(--space-lg);
+        min-height: 60px;
+    }
+    
+    .member-social {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-md);
+    }
+    
+    .member-social a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--gray-100);
+        color: var(--gray-700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .member-social a:hover {
+        background: var(--gradient-primary);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo" data-scroll>
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <span class="footer-logo-text">EazyHire</span>
+                </a>
+                
+                <p class="footer-tagline" data-scroll style="transition-delay: 0.1s">
+                    Building Nigeria's most trusted service marketplace. Connecting verified professionals with clients who value quality, reliability, and trust.
+                </p>
+                
+                <div class="footer-social">
+                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.2s">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.3s">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.4s">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="copyright" data-scroll style="transition-delay: 0.5s">
+                    © 2023 EazyHire Nigeria. Coming Soon.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Create bubbles
+        function createBubbles() {
+            const container = document.getElementById('bubblesContainer');
+            const bubbleCount = 10;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                // Random properties
+                const size = Math.random() * 100 + 50; // 50-150px
+                const left = Math.random() * 100; // 0-100%
+                const duration = Math.random() * 20 + 15; // 15-35s
+                const delay = Math.random() * 10; // 0-10s delay
+                const xStart = (Math.random() * 100); // 0-100% start
+                const xEnd = (Math.random() * 60 - 30); // -30% to 30% horizontal movement
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.setProperty('--x-start', `${xStart}px`);
+                bubble.style.setProperty('--x-end', `${xEnd}px`);
+                
+                container.appendChild(bubble);
+            }
+        }
+        
+        // Handle preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    
+                    // Start entrance animations
+                    startEntranceAnimations();
+                    createBubbles();
+                }, 500);
+            }, 1000);
+        });
+        
+        // Entrance animations
+        function startEntranceAnimations() {
+            // Show header
+            const header = document.getElementById('header');
+            setTimeout(() => {
+                header.classList.add('visible');
+            }, 300);
+            
+            // Animate elements with data-animate
+            const animateElements = document.querySelectorAll('[data-animate]');
+            animateElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('animate');
+                }, 500 + (index * 100));
+            });
+            
+            // Animate hero images
+            const imageItems = document.querySelectorAll('.image-item');
+            imageItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('animate');
+                }, 800 + (index * 100));
+            });
+        }
+        
+        // Scroll animations
+        function initScrollAnimations() {
+            const scrollElements = document.querySelectorAll('[data-scroll]');
+            const staggerItems = document.querySelectorAll('.stagger-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('scroll-in');
+                        
+                        // Handle stagger items
+                        if (entry.target.classList.contains('stagger-item')) {
+                            const index = Array.from(staggerItems).indexOf(entry.target);
+                            setTimeout(() => {
+                                entry.target.classList.add('animate');
+                            }, index * 100);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            scrollElements.forEach(el => observer.observe(el));
+            staggerItems.forEach(el => observer.observe(el));
+        }
+        
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileToggle.addEventListener('click', () => {
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            mobileToggle.innerHTML = navMenu.style.display === 'flex' ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.style.display = 'flex';
+            } else {
+                navMenu.style.display = 'none';
+                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Waitlist form submission
+        const waitlistForm = document.getElementById('waitlistForm');
+        
+        waitlistForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = waitlistForm.querySelector('.form-submit');
+            const originalText = submitBtn.querySelector('span').textContent;
+            const originalIcon = submitBtn.querySelector('i').className;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.querySelector('span').textContent = 'Joining...';
+            submitBtn.querySelector('i').className = 'fas fa-spinner fa-spin';
+            
+            // Simulate API call with cool animation
+            setTimeout(() => {
+                // Create confetti effect
+                createConfetti();
+                
+                // Show success
+                setTimeout(() => {
+                    submitBtn.querySelector('span').textContent = 'Successfully Joined!';
+                    submitBtn.querySelector('i').className = 'fas fa-check';
+                    submitBtn.style.background = 'var(--secondary)';
+                    
+                    // Reset form
+                    setTimeout(() => {
+                        submitBtn.querySelector('span').textContent = originalText;
+                        submitBtn.querySelector('i').className = originalIcon;
+                        submitBtn.style.background = '';
+                        submitBtn.disabled = false;
+                        waitlistForm.reset();
+                        
+                        // Show success message
+                        showSuccessMessage();
+                    }, 2000);
+                }, 500);
+            }, 1500);
+        });
+        
+        // Create confetti effect
+        function createConfetti() {
+            const waitlistSection = document.querySelector('.waitlist');
+            const confettiCount = 100;
+            const colors = ['#FFFFFF', '#FBBF24', '#34D399', '#60A5FA'];
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const left = Math.random() * 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const shape = Math.random() > 0.5 ? 'circle' : 'square';
+                
+                confetti.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${color};
+                    border-radius: ${shape === 'circle' ? '50%' : '2px'};
+                    top: -20px;
+                    left: ${left}%;
+                    z-index: 100;
+                    opacity: 0;
+                `;
+                
+                waitlistSection.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    {
+                        transform: 'translateY(0) rotate(0deg) scale(0)',
+                        opacity: 0
+                    },
+                    {
+                        transform: `translateY(${window.innerHeight * 0.3}px) rotate(${Math.random() * 360}deg) scale(1)`,
+                        opacity: 0.8
+                    },
+                    {
+                        transform: `translateY(${window.innerHeight * 0.6}px) rotate(${Math.random() * 720}deg) scale(0)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: Math.random() * 2000 + 1000,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)'
+                });
+                
+                // Remove after animation
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+        
+        // Show success message
+        function showSuccessMessage() {
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    background: white;
+                    padding: 32px;
+                    border-radius: 20px;
+                    box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    text-align: center;
+                    max-width: 400px;
+                    width: 90%;
+                    animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+                ">
+                    <div style="margin-bottom: 20px;">
+                        <div style="
+                            width: 80px;
+                            height: 80px;
+                            background: linear-gradient(135deg, #10B981, #34D399);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto 20px;
+                            animation: bounceIn 0.6s 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+                        ">
+                            <i class="fas fa-check" style="color: white; font-size: 36px;"></i>
+                        </div>
+                        <h3 style="color: #111827; font-size: 24px; margin-bottom: 12px; font-weight: 700;">
+                            Welcome to EazyHire!
+                        </h3>
+                        <p style="color: #6B7280; font-size: 16px; line-height: 1.5;">
+                            You're now on our exclusive waitlist. We'll notify you as soon as we launch with special early bird perks!
+                        </p>
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="
+                        background: linear-gradient(135deg, #2563EB, #3B82F6);
+                        color: white;
+                        border: none;
+                        padding: 12px 32px;
+                        border-radius: 12px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: transform 0.3s ease;
+                        font-size: 16px;
+                    ">
+                        Continue Exploring
+                    </button>
+                </div>
+            `;
+            
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes popIn {
+                    0% {
+                        transform: translate(-50%, -50%) scale(0);
+                        opacity: 0;
+                    }
+                    80% {
+                        transform: translate(-50%, -50%) scale(1.1);
+                    }
+                    100% {
+                        transform: translate(-50%, -50%) scale(1);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes bounceIn {
+                    0% {
+                        transform: scale(0);
+                    }
+                    50% {
+                        transform: scale(1.2);
+                    }
+                    100% {
+                        transform: scale(1);
+                    }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            document.body.appendChild(message.firstElementChild);
+            
+            // Add overlay
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                z-index: 9999;
+                opacity: 0;
+                animation: fadeIn 0.3s ease forwards;
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            // Close on overlay click
+            overlay.addEventListener('click', () => {
+                overlay.remove();
+                message.firstElementChild.remove();
+                style.remove();
+            });
+            
+            // Add fadeIn animation
+            const overlayStyle = document.createElement('style');
+            overlayStyle.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(overlayStyle);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollAnimations();
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (window.innerWidth <= 768) {
+                            navMenu.style.display = 'none';
+                            mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                        }
+                    }
+                });
+            });
+            
+            // Console welcome
+            console.log('%c🚀 EazyHire - Coming Soon 🚀', 'color: #2563EB; font-size: 18px; font-weight: bold;');
+            console.log('%cNigeria\'s premium service marketplace', 'color: #10B981; font-size: 14px;');
+            console.log('%cJoin our waitlist for early access!', 'color: #F59E0B; font-size: 12px;');
+        });
+    </script>
+</body>
+</html>
