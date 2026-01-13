@@ -88,8 +88,24 @@
             background-color: var(--white);
             color: var(--gray-800);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
+        }
+        
+        /* Ensure no horizontal overflow */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Fix for any other potential overflow issues */
+        .container {
+            max-width: 100%;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
         }
         
         /* Preloader */
@@ -129,6 +145,7 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
+            pointer-events: none; /* Prevent interaction */
         }
         
         .bubble {
@@ -138,6 +155,7 @@
             animation: floatUp linear infinite;
             opacity: 0;
             filter: blur(50px);
+            will-change: transform; /* Optimize animations */
         }
         
         @keyframes floatUp {
@@ -192,6 +210,13 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        /* Faster staggered animations */
+        .stagger-item:nth-child(1) { transition-delay: 0s; }
+        .stagger-item:nth-child(2) { transition-delay: 0.1s; }
+        .stagger-item:nth-child(3) { transition-delay: 0.2s; }
+        .stagger-item:nth-child(4) { transition-delay: 0.3s; }
+        .stagger-item:nth-child(5) { transition-delay: 0.4s; }
         
         .container {
             max-width: 1200px;
@@ -282,9 +307,73 @@
             gap: var(--space-2xl);
         }
         
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        
+        /* Mobile Navigation Dropdown - FIXED */
         @media (max-width: 768px) {
             .nav-menu {
-                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                max-height: calc(100vh - 80px); /* Limit height to viewport minus header */
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                padding: var(--space-xl) var(--space-lg);
+                flex-direction: column;
+                align-items: center;
+                gap: var(--space-xl);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-bottom: 1px solid var(--gray-200);
+                overflow-y: auto; /* Allow scrolling within menu if needed */
+                -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                transform: translateY(0);
+                visibility: visible;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: var(--space-xl);
+                width: 100%;
+                align-items: center;
+            }
+            
+            .nav-link {
+                padding: var(--space-sm) 0;
+                font-size: 16px;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--gray-100);
+                padding-bottom: var(--space-md);
+            }
+            
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+            
+            .nav-cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            /* Prevent body scroll when menu is active */
+            body.menu-open {
+                overflow: hidden;
+                height: 100vh;
+                position: relative;
             }
         }
         
@@ -350,6 +439,17 @@
             font-size: 24px;
             color: var(--gray-700);
             cursor: pointer;
+            padding: var(--space-sm);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-toggle.active i {
+            transform: rotate(90deg);
         }
         
         @media (max-width: 768px) {
@@ -528,18 +628,16 @@
         }
 
         .section-title span{
-            color: var(--gradient-primary);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         @media (max-width: 768px) {
             .section-title {
                 font-size: 30px;
             }
-            
-            .section-title h2 span{
-                colour: var(--gradient-primary);
-            }
-            
         }
         
         .section-subtitle {
@@ -940,9 +1038,7 @@
             font-size: 14px;
             margin-top: var(--space-xl);
         }
-        .section-title span {
-            color: var(--gradient-primary);
-        }        
+        
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
             .section {
@@ -980,96 +1076,165 @@
                 height: 300px;
             }
         }
-    
-            /* Mobile Navigation Dropdown */
-        .nav-menu {
-            display: flex;
-            align-items: center;
+        
+        /* Team Section Styles */
+        .team {
+            background: var(--white);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--space-2xl);
+            margin-top: var(--space-3xl);
         }
         
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2xl);
+        .team-member {
+            text-align: center;
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray-100);
         }
         
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
-                padding: var(--space-xl) var(--space-lg);
-                flex-direction: column;
-                align-items: center;
-                gap: var(--space-xl);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-                z-index: 999;
-                opacity: 0;
-                transform: translateY(-20px);
-                visibility: hidden;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border-bottom: 1px solid var(--gray-200);
-            }
-            
-            .nav-menu.active {
-                opacity: 1;
-                transform: translateY(0);
-                visibility: visible;
-            }
-            
-            .nav-links {
-                flex-direction: column;
-                gap: var(--space-xl);
-                width: 100%;
-                align-items: center;
-            }
-            
-            .nav-link {
-                padding: var(--space-sm) 0;
-                font-size: 16px;
-                width: 100%;
-                text-align: center;
-                border-bottom: 1px solid var(--gray-100);
-                padding-bottom: var(--space-md);
-            }
-            
-            .nav-link:last-child {
-                border-bottom: none;
-            }
-            
-            .nav-cta-btn {
-                width: 100%;
-                justify-content: center;
-            }
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
         }
         
-        .mobile-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            font-size: 24px;
-            color: var(--gray-700);
-            cursor: pointer;
-            padding: var(--space-sm);
-            z-index: 1001;
-            transition: transform 0.3s ease;
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
         
-        .mobile-toggle:hover {
+        .team-member:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto var(--space-lg);
+            position: relative;
+        }
+        
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--white);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .team-member:hover .avatar-inner img {
             transform: scale(1.1);
         }
         
-        .mobile-toggle.active i {
-            transform: rotate(90deg);
+        .avatar-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            filter: blur(20px);
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+        
+        .team-member:hover .avatar-glow {
+            opacity: 0.3;
+        }
+        
+        .member-info {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .member-name {
+            font-size: 20px;
+            color: var(--gray-900);
+            margin-bottom: var(--space-xs);
+            font-weight: 700;
+        }
+        
+        .member-role {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .member-bio {
+            color: var(--gray-600);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: var(--space-lg);
+            min-height: 60px;
+        }
+        
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+        }
+        
+        .member-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .member-social a:hover {
+            background: var(--gradient-primary);
+            color: var(--white);
+            transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
-            .mobile-toggle {
-                display: block;
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-lg);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1083,7 +1248,7 @@
     <!-- Bubbles Background -->
     <div class="bubbles-container" id="bubblesContainer"></div>
     
-        <!-- Header -->
+    <!-- Header -->
     <header class="header" id="header">
         <div class="container header-container">
             <a href="#" class="logo" data-animate>
@@ -1102,12 +1267,12 @@
             
             <nav class="nav-menu" id="navMenu">
                 <div class="nav-links">
-                    <a href="#home" class="nav-link" data-animate style="transition-delay: 0.1s">Home</a>
-                    <a href="#features" class="nav-link" data-animate style="transition-delay: 0.2s">Features</a>
-                    <a href="#challenge" class="nav-link" data-animate style="transition-delay: 0.3s">The Challenge</a>
-                    <a href="#team" class="nav-link" data-animate style="transition-delay: 0.4s">Team</a>
+                    <a href="#home" class="nav-link" data-animate>Home</a>
+                    <a href="#features" class="nav-link" data-animate>Features</a>
+                    <a href="#challenge" class="nav-link" data-animate>The Challenge</a>
+                    <a href="#team" class="nav-link" data-animate>Team</a>
                 </div>
-                <a href="#waitlist" class="btn btn-primary nav-cta-btn" data-animate style="transition-delay: 0.5s">
+                <a href="#waitlist" class="btn btn-primary nav-cta-btn" data-animate>
                     <i class="fas fa-rocket"></i>
                     <span>Join Waitlist</span>
                 </a>
@@ -1124,15 +1289,15 @@
                     <span class="badge-text">Launching Soon</span>
                 </div>
                 
-                <h1 class="hero-title" data-animate style="transition-delay: 0.2s">
+                <h1 class="hero-title" data-animate>
                     Nigeria's Premium <span class="title-highlight">Service Marketplace</span>
                 </h1>
                 
-                <p class="hero-subtitle" data-animate style="transition-delay: 0.3s">
+                <p class="hero-subtitle" data-animate>
                     EazyHire is building Nigeria's most trusted platform connecting verified service professionals with clients. Join our exclusive waitlist to be first in line when we launch.
                 </p>
                 
-                <div class="hero-cta" data-animate style="transition-delay: 0.4s">
+                <div class="hero-cta" data-animate>
                     <a href="#waitlist" class="btn btn-primary" style="padding: 16px 40px; font-size: 16px;">
                         <i class="fas fa-paper-plane"></i>
                         <span>Join Exclusive Waitlist</span>
@@ -1182,7 +1347,7 @@
                     </p>
                 </div>
                 
-                <div class="feature-card stagger-item" data-scroll style="transition-delay: 0.1s">
+                <div class="feature-card stagger-item" data-scroll>
                     <div class="feature-icon">
                         <i class="fas fa-user-shield"></i>
                     </div>
@@ -1192,7 +1357,7 @@
                     </p>
                 </div>
                 
-                <div class="feature-card stagger-item" data-scroll style="transition-delay: 0.2s">
+                <div class="feature-card stagger-item" data-scroll>
                     <div class="feature-icon">
                         <i class="fas fa-headset"></i>
                     </div>
@@ -1225,7 +1390,7 @@
                         <p>Spending hours searching for reliable service providers</p>
                     </div>
                     
-                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.1s">
+                    <div class="challenge-point stagger-item" data-scroll>
                         <div class="point-icon">
                             <i class="fas fa-user-shield"></i>
                         </div>
@@ -1233,7 +1398,7 @@
                         <p>No way to verify if providers are legitimate or skilled</p>
                     </div>
                     
-                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.2s">
+                    <div class="challenge-point stagger-item" data-scroll>
                         <div class="point-icon">
                             <i class="fas fa-tags"></i>
                         </div>
@@ -1241,7 +1406,7 @@
                         <p>Getting quoted different prices for the same service</p>
                     </div>
                     
-                    <div class="challenge-point stagger-item" data-scroll style="transition-delay: 0.3s">
+                    <div class="challenge-point stagger-item" data-scroll>
                         <div class="point-icon">
                             <i class="fas fa-clock"></i>
                         </div>
@@ -1257,7 +1422,7 @@
     <section class="section benefits" id="benefits">
         <div class="container">
             <div class="section-header" data-scroll>
-                <h2 class="section-title">Why Choose <span>EazyHire</span>?</h2>
+                <h2 class="section-title">Why Choose <span>EazyHire</span></h2>
                 <p class="section-subtitle">Experience the difference with our customer-first approach</p>
             </div>
             
@@ -1272,7 +1437,7 @@
                     </p>
                 </div>
                 
-                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.1s">
+                <div class="benefit-card stagger-item" data-scroll>
                     <div class="benefit-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
@@ -1282,7 +1447,7 @@
                     </p>
                 </div>
                 
-                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.2s">
+                <div class="benefit-card stagger-item" data-scroll>
                     <div class="benefit-icon">
                         <i class="fas fa-eye"></i>
                     </div>
@@ -1292,7 +1457,7 @@
                     </p>
                 </div>
                 
-                <div class="benefit-card stagger-item" data-scroll style="transition-delay: 0.3s">
+                <div class="benefit-card stagger-item" data-scroll>
                     <div class="benefit-icon">
                         <i class="fas fa-check-circle"></i>
                     </div>
@@ -1300,6 +1465,54 @@
                     <p class="benefit-description">
                         One request. One match. Perfect service every time.
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section team" id="team">
+        <div class="container">
+            <div class="section-header" data-scroll>
+                <h2 class="section-title">Meet <span>The Team</span></h2>
+                <p class="section-subtitle">The passionate minds building Nigeria's trusted service marketplace</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member stagger-item" data-scroll>
+                    <div class="member-avatar">
+                        <div class="avatar-inner">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nwokafor Neto">
+                        </div>
+                        <div class="avatar-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Nwokafor</h3>
+                        <p class="member-role">Co-founder & CEO</p>
+                        <p class="member-bio">Determined leader with a creative vision.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member stagger-item" data-scroll>
+                    <div class="member-avatar">
+                        <div class="avatar-inner">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chijioke Victor">
+                        </div>
+                        <div class="avatar-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Nwokafor</h3>
+                        <p class="member-role">Co-founder & CFO</p>
+                        <p class="member-bio">Expert in scaling service businesses across Nigeria.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1315,29 +1528,61 @@
                 </p>
                 
                 <form class="waitlist-form" id="waitlistForm">
-                    <div class="form-group" data-scroll style="transition-delay: 0.1s">
+                    <div class="form-group" data-scroll>
                         <label class="form-label">Full Name</label>
                         <input type="text" class="form-input" placeholder="Enter your full name" required>
                     </div>
                     
-                    <div class="form-group" data-scroll style="transition-delay: 0.2s">
+                    <div class="form-group" data-scroll>
                         <label class="form-label">Email Address</label>
                         <input type="email" class="form-input" placeholder="you@example.com" required>
                     </div>
                     
-                    <div class="form-group" data-scroll style="transition-delay: 0.3s">
+                    <div class="form-group" data-scroll>
                         <label class="form-label">Location in Nigeria</label>
                         <select class="form-input" required>
-                            <option value="" disabled selected>Select your city</option>
-                            <option value="lagos">Lagos</option>
-                            <option value="abuja">Abuja</option>
-                            <option value="port-harcourt">Port Harcourt</option>
-                            <option value="ibadan">Ibadan</option>
-                            <option value="others">Other Cities</option>
-                        </select>
+    <option value="" disabled selected>Select your state</option>
+    <option value="abia">Abia</option>
+    <option value="adamawa">Adamawa</option>
+    <option value="akwa-ibom">Akwa Ibom</option>
+    <option value="anambra">Anambra</option>
+    <option value="bauchi">Bauchi</option>
+    <option value="bayelsa">Bayelsa</option>
+    <option value="benue">Benue</option>
+    <option value="borno">Borno</option>
+    <option value="cross-river">Cross River</option>
+    <option value="delta">Delta</option>
+    <option value="ebonyi">Ebonyi</option>
+    <option value="edo">Edo</option>
+    <option value="ekiti">Ekiti</option>
+    <option value="enugu">Enugu</option>
+    <option value="gombe">Gombe</option>
+    <option value="imo">Imo</option>
+    <option value="jigawa">Jigawa</option>
+    <option value="kaduna">Kaduna</option>
+    <option value="kano">Kano</option>
+    <option value="katsina">Katsina</option>
+    <option value="kebbi">Kebbi</option>
+    <option value="kogi">Kogi</option>
+    <option value="kwara">Kwara</option>
+    <option value="lagos">Lagos</option>
+    <option value="nasarawa">Nasarawa</option>
+    <option value="niger">Niger</option>
+    <option value="ogun">Ogun</option>
+    <option value="ondo">Ondo</option>
+    <option value="osun">Osun</option>
+    <option value="oyo">Oyo</option>
+    <option value="plateau">Plateau</option>
+    <option value="rivers">Rivers</option>
+    <option value="sokoto">Sokoto</option>
+    <option value="taraba">Taraba</option>
+    <option value="yobe">Yobe</option>
+    <option value="zamfara">Zamfara</option>
+    <option value="fct">Federal Capital Territory (Abuja)</option>
+</select>
                     </div>
                     
-                    <button type="submit" class="form-submit" data-scroll style="transition-delay: 0.4s">
+                    <button type="submit" class="form-submit" data-scroll>
                         <i class="fas fa-paper-plane"></i>
                         <span>Join Waitlist</span>
                     </button>
@@ -1348,17 +1593,17 @@
                 </p>
                 
                 <div class="perks">
-                    <div class="perk" data-scroll style="transition-delay: 0.5s">
+                    <div class="perk" data-scroll>
                         <i class="fas fa-check-circle"></i>
                         <span>Free to join</span>
                     </div>
                     
-                    <div class="perk" data-scroll style="transition-delay: 0.6s">
+                    <div class="perk" data-scroll>
                         <i class="fas fa-check-circle"></i>
                         <span>No credit card required</span>
                     </div>
                     
-                    <div class="perk" data-scroll style="transition-delay: 0.7s">
+                    <div class="perk" data-scroll>
                         <i class="fas fa-check-circle"></i>
                         <span>Early bird perks</span>
                     </div>
@@ -1366,219 +1611,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Team Section -->
-<section class="section team" id="team">
-    <div class="container">
-        <div class="section-header" data-scroll>
-            <h2 class="section-title">Meet <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">The Team</span></h2>
-            <p class="section-subtitle">The passionate minds building Nigeria's trusted service marketplace</p>
-        </div>
-        
-        <div class="team-grid">
-            <div class="team-member stagger-item" data-scroll>
-                <div class="member-avatar">
-                    <div class="avatar-inner">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nwokafor Neto">
-                    </div>
-                    <div class="avatar-glow"></div>
-                </div>
-                <div class="member-info">
-                    <h3 class="member-name">Nwokafor</h3>
-                    <p class="member-role">Co-founder & CEO</p>
-                    <p class="member-bio">Determined leader with a creative vision.</p>
-                    <div class="member-social">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="team-member stagger-item" data-scroll style="transition-delay: 0.1s">
-                <div class="member-avatar">
-                    <div class="avatar-inner">
-                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chijioke Victor">
-                    </div>
-                    <div class="avatar-glow"></div>
-                </div>
-                <div class="member-info">
-                    <h3 class="member-name">Nwokafor</h3>
-                    <p class="member-role">Co-founderand CFO</p>
-                    <p class="member-bio">Expert in scaling service businesses across Nigeria.</p>
-                    <div class="member-social">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</section>
-
-<style>
-    /* Team Section Styles */
-    .team {
-        background: var(--white);
-    }
-    
-    .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: var(--space-2xl);
-        margin-top: var(--space-3xl);
-    }
-    
-    .team-member {
-        text-align: center;
-        padding: var(--space-xl);
-        border-radius: var(--radius-xl);
-        background: var(--white);
-        box-shadow: var(--shadow-sm);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        border: 1px solid var(--gray-100);
-    }
-    
-    .team-member:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--primary-light);
-    }
-    
-    .team-member::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: var(--gradient-primary);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease;
-    }
-    
-    .team-member:hover::before {
-        transform: scaleX(1);
-    }
-    
-    .member-avatar {
-        width: 120px;
-        height: 120px;
-        margin: 0 auto var(--space-lg);
-        position: relative;
-    }
-    
-    .avatar-inner {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid var(--white);
-        box-shadow: var(--shadow-md);
-        position: relative;
-        z-index: 2;
-    }
-    
-    .avatar-inner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
-    }
-    
-    .team-member:hover .avatar-inner img {
-        transform: scale(1.1);
-    }
-    
-    .avatar-glow {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        border-radius: 50%;
-        background: var(--gradient-primary);
-        opacity: 0;
-        filter: blur(20px);
-        transition: opacity 0.4s ease;
-        z-index: 1;
-    }
-    
-    .team-member:hover .avatar-glow {
-        opacity: 0.3;
-    }
-    
-    .member-info {
-        position: relative;
-        z-index: 2;
-    }
-    
-    .member-name {
-        font-size: 20px;
-        color: var(--gray-900);
-        margin-bottom: var(--space-xs);
-        font-weight: 700;
-    }
-    
-    .member-role {
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 14px;
-        margin-bottom: var(--space-md);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .member-bio {
-        color: var(--gray-600);
-        font-size: 14px;
-        line-height: 1.5;
-        margin-bottom: var(--space-lg);
-        min-height: 60px;
-    }
-    
-    .member-social {
-        display: flex;
-        justify-content: center;
-        gap: var(--space-md);
-    }
-    
-    .member-social a {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--gray-100);
-        color: var(--gray-700);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .member-social a:hover {
-        background: var(--gradient-primary);
-        color: var(--white);
-        transform: translateY(-2px);
-    }
-    
-    @media (max-width: 768px) {
-        .team-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-lg);
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .team-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
 
     <!-- Footer -->
     <footer class="footer">
@@ -1591,23 +1623,23 @@
                     <span class="footer-logo-text">EazyHire</span>
                 </a>
                 
-                <p class="footer-tagline" data-scroll style="transition-delay: 0.1s">
+                <p class="footer-tagline" data-scroll>
                     Building Nigeria's most trusted service marketplace. Connecting verified professionals with clients who value quality, reliability, and trust.
                 </p>
                 
                 <div class="footer-social">
-                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.2s">
+                    <a href="#" class="social-link" data-scroll>
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.3s">
+                    <a href="#" class="social-link" data-scroll>
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="social-link" data-scroll style="transition-delay: 0.4s">
+                    <a href="#" class="social-link" data-scroll>
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                 </div>
                 
-                <p class="copyright" data-scroll style="transition-delay: 0.5s">
+                <p class="copyright" data-scroll>
                     © 2026 EazyHire Nigeria. Coming Soon.
                 </p>
             </div>
@@ -1684,7 +1716,7 @@
             });
         }
         
-        // Scroll animations
+        // Optimized scroll animations WITHOUT delay
         function initScrollAnimations() {
             const scrollElements = document.querySelectorAll('[data-scroll]');
             const staggerItems = document.querySelectorAll('.stagger-item');
@@ -1692,27 +1724,37 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        // Remove transition delay for immediate animation
                         entry.target.classList.add('scroll-in');
                         
-                        // Handle stagger items
+                        // For stagger items, animate immediately WITHOUT setTimeout
                         if (entry.target.classList.contains('stagger-item')) {
-                            const index = Array.from(staggerItems).indexOf(entry.target);
-                            setTimeout(() => {
-                                entry.target.classList.add('animate');
-                            }, index * 100);
+                            entry.target.classList.add('animate');
                         }
+                        
+                        // Stop observing after animation
+                        observer.unobserve(entry.target);
                     }
                 });
             }, {
                 threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                rootMargin: '0px 0px -100px 0px' // Trigger animation a bit earlier
             });
             
-            scrollElements.forEach(el => observer.observe(el));
-            staggerItems.forEach(el => observer.observe(el));
+            scrollElements.forEach(el => {
+                // Remove any existing inline transition delays
+                el.style.transitionDelay = '';
+                observer.observe(el);
+            });
+            
+            staggerItems.forEach(el => {
+                // Remove any existing inline transition delays
+                el.style.transitionDelay = '';
+                observer.observe(el);
+            });
         }
         
-                // Mobile menu toggle with dropdown animation
+        // Mobile menu toggle with dropdown animation - FIXED
         const mobileToggle = document.getElementById('mobileToggle');
         const navMenu = document.getElementById('navMenu');
         
@@ -1725,10 +1767,10 @@
             if (navMenu.classList.contains('active')) {
                 icon.className = 'fas fa-times';
                 // Prevent body scroll when menu is open
-                document.body.style.overflow = 'hidden';
+                document.body.classList.add('menu-open');
             } else {
                 icon.className = 'fas fa-bars';
-                document.body.style.overflow = '';
+                document.body.classList.remove('menu-open');
             }
         });
         
@@ -1738,7 +1780,7 @@
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
                 mobileToggle.querySelector('i').className = 'fas fa-bars';
-                document.body.style.overflow = '';
+                document.body.classList.remove('menu-open');
             });
         });
         
@@ -1751,7 +1793,7 @@
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
                 mobileToggle.querySelector('i').className = 'fas fa-bars';
-                document.body.style.overflow = '';
+                document.body.classList.remove('menu-open');
             }
         });
         
@@ -1761,7 +1803,7 @@
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
                 mobileToggle.querySelector('i').className = 'fas fa-bars';
-                document.body.style.overflow = '';
+                document.body.classList.remove('menu-open');
             }
         });
         
@@ -1900,7 +1942,7 @@
                         </p>
                     </div>
                     <button onclick="this.parentElement.remove()" style="
-                        background: linear-gradient(135deg, #2563EB, #3B82F6);
+                        background: linear-gradient(135deg, rgb(0, 146, 49), rgb(86, 255, 114));
                         color: white;
                         border: none;
                         padding: 12px 32px;
@@ -2004,18 +2046,20 @@
                         
                         // Close mobile menu if open
                         if (window.innerWidth <= 768) {
-                            navMenu.style.display = 'none';
-                            mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                            navMenu.classList.remove('active');
+                            mobileToggle.classList.remove('active');
+                            mobileToggle.querySelector('i').className = 'fas fa-bars';
+                            document.body.classList.remove('menu-open');
                         }
                     }
                 });
             });
             
             // Console welcome
-            console.log('%c🚀 EazyHire - Coming Soon 🚀', 'color: #2563EB; font-size: 18px; font-weight: bold;');
-            console.log('%cNigeria\'s premium service marketplace', 'color: #10B981; font-size: 14px;');
+            console.log('%c🚀 EazyHire - Coming Soon 🚀', 'color: #009231; font-size: 18px; font-weight: bold;');
+            console.log('%cNigeria\'s premium service marketplace', 'color: #11ACA9; font-size: 14px;');
             console.log('%cJoin our waitlist for early access!', 'color: #F59E0B; font-size: 12px;');
         });
     </script>
 </body>
-    </html>
+</html>
