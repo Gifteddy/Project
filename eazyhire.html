@@ -969,6 +969,98 @@
                 height: 300px;
             }
         }
+    
+            /* Mobile Navigation Dropdown */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                padding: var(--space-xl) var(--space-lg);
+                flex-direction: column;
+                align-items: center;
+                gap: var(--space-xl);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-bottom: 1px solid var(--gray-200);
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                transform: translateY(0);
+                visibility: visible;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: var(--space-xl);
+                width: 100%;
+                align-items: center;
+            }
+            
+            .nav-link {
+                padding: var(--space-sm) 0;
+                font-size: 16px;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--gray-100);
+                padding-bottom: var(--space-md);
+            }
+            
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+            
+            .nav-cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-700);
+            cursor: pointer;
+            padding: var(--space-sm);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-toggle.active i {
+            transform: rotate(90deg);
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -980,7 +1072,7 @@
     <!-- Bubbles Background -->
     <div class="bubbles-container" id="bubblesContainer"></div>
     
-    <!-- Header -->
+        <!-- Header -->
     <header class="header" id="header">
         <div class="container header-container">
             <a href="#" class="logo" data-animate>
@@ -993,20 +1085,22 @@
                 </div>
             </a>
             
-            <nav class="nav-menu">
-                <a href="#home" class="nav-link" data-animate style="transition-delay: 0.1s">Home</a>
-                <a href="#features" class="nav-link" data-animate style="transition-delay: 0.2s">Features</a>
-                <a href="#challenge" class="nav-link" data-animate style="transition-delay: 0.3s">The Challenge</a>
-                <a href="#team" class="nav-link" data-animate style="transition-delay: 0.4s">Team</a>
-                <a href="#waitlist" class="btn btn-primary" data-animate style="transition-delay: 0.5s">
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <div class="nav-links">
+                    <a href="#home" class="nav-link" data-animate style="transition-delay: 0.1s">Home</a>
+                    <a href="#features" class="nav-link" data-animate style="transition-delay: 0.2s">Features</a>
+                    <a href="#challenge" class="nav-link" data-animate style="transition-delay: 0.3s">The Challenge</a>
+                    <a href="#team" class="nav-link" data-animate style="transition-delay: 0.4s">Team</a>
+                </div>
+                <a href="#waitlist" class="btn btn-primary nav-cta-btn" data-animate style="transition-delay: 0.5s">
                     <i class="fas fa-rocket"></i>
                     <span>Join Waitlist</span>
                 </a>
             </nav>
-            
-            <button class="mobile-toggle" id="mobileToggle">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
@@ -1641,23 +1735,56 @@
             staggerItems.forEach(el => observer.observe(el));
         }
         
-        // Mobile menu toggle
+                // Mobile menu toggle with dropdown animation
         const mobileToggle = document.getElementById('mobileToggle');
-        const navMenu = document.querySelector('.nav-menu');
+        const navMenu = document.getElementById('navMenu');
         
         mobileToggle.addEventListener('click', () => {
-            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-            mobileToggle.innerHTML = navMenu.style.display === 'flex' ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            navMenu.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            
+            // Animate hamburger icon
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+                // Prevent body scroll when menu is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                icon.className = 'fas fa-bars';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link, .nav-cta-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                mobileToggle.querySelector('i').className = 'fas fa-bars';
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !navMenu.contains(e.target) && 
+                !mobileToggle.contains(e.target) &&
+                navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                mobileToggle.querySelector('i').className = 'fas fa-bars';
+                document.body.style.overflow = '';
+            }
         });
         
         // Handle window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
-                navMenu.style.display = 'flex';
-            } else {
-                navMenu.style.display = 'none';
-                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                navMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                mobileToggle.querySelector('i').className = 'fas fa-bars';
+                document.body.style.overflow = '';
             }
         });
         
@@ -1914,4 +2041,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
