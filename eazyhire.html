@@ -262,8 +262,8 @@
         }
         
         .logo-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: var(--gradient-primary);
             border-radius: var(--radius-md);
             display: flex;
@@ -286,7 +286,7 @@
         
         .logo-primary {
             font-family: var(--font-heading);
-            font-size: 28px;
+            font-size: 25px;
             font-weight: 800;
             color: var(--gray-900);
             letter-spacing: -0.5px;
@@ -1235,6 +1235,219 @@
         @media (max-width: 480px) {
             .team-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+                /* ===== HERO SECTION ===== */
+        .hero {
+            padding-top: 150px;
+            padding-bottom: var(--space-6xl);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            isolation: isolate;
+        }
+        
+        /* Grid Background with Opacity Gradient */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 146, 49, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 146, 49, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            z-index: -1;
+            opacity: 0.3;
+            animation: gridPulse 8s ease-in-out infinite alternate;
+        }
+        
+        @keyframes gridPulse {
+            0% {
+                opacity: 0.3;
+                background-size: 40px 40px;
+            }
+            100% {
+                opacity: 0.5;
+                background-size: 42px 42px;
+            }
+        }
+        
+        /* Optional: Add subtle glow effect */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0, 146, 49, 0.5) 0%,
+                rgba(0, 146, 49, 0.2) 30%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -2;
+            opacity: 0.5;
+        }
+        
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Alternative simpler grid styles (choose one) */
+        
+        /* Option 2: Diagonal Grid */
+        /*
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(45deg, rgba(0, 146, 49, 0.04) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(0, 146, 49, 0.04) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(0, 146, 49, 0.04) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(0, 146, 49, 0.04) 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+            mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.3) 80%,
+                rgba(0,0,0,0) 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.3) 80%,
+                rgba(0,0,0,0) 100%
+            );
+            z-index: -1;
+            opacity: 0.5;
+        }
+        */
+        
+        /* Option 3: Dotted Grid */
+        /*
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(0, 146, 49, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            z-index: -1;
+            opacity: 0.4;
+        }
+        */
+        
+        /* Option 4: Hexagonal Grid */
+        /*
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 0% 50%, rgba(0, 146, 49, 0.05) 9px, transparent 10px),
+                radial-gradient(circle at 100% 50%, rgba(0, 146, 49, 0.05) 9px, transparent 10px),
+                radial-gradient(circle at 50% 0%, rgba(0, 146, 49, 0.05) 9px, transparent 10px),
+                radial-gradient(circle at 50% 100%, rgba(0, 146, 49, 0.05) 9px, transparent 10px);
+            background-size: 50px 25px;
+            mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,1) 30%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0) 100%
+            );
+            z-index: -1;
+            opacity: 0.4;
+        }
+        */
+        
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: var(--space-3xl);
+            }
+            
+            /* Adjust grid for mobile */
+            .hero::before {
+                background-size: 30px 30px;
+                mask-image: radial-gradient(
+                    ellipse at center,
+                    rgba(0,0,0,1) 20%,
+                    rgba(0,0,0,0.4) 60%,
+                    rgba(0,0,0,0) 90%
+                );
+                -webkit-mask-image: radial-gradient(
+                    ellipse at center,
+                    rgba(0,0,0,1) 20%,
+                    rgba(0,0,0,0.3) 60%,
+                    rgba(0,0,0,0) 90%
+                );
+            }
+            
+            @keyframes gridPulse {
+                0% {
+                    opacity: 0.2;
+                    background-size: 30px 30px;
+                }
+                100% {
+                    opacity: 0.5;
+                    background-size: 32px 32px;
+                }
             }
         }
     </style>
